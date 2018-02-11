@@ -18,6 +18,7 @@ Bundler.require(*Rails.groups)
 
 module SphinxRailsApi
   class Application < Rails::Application
+    #config.autoload_paths << Rails.root.join('lib')
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 5.1
     # Settings in config/environments/* take precedence over those specified here.
