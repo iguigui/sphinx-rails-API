@@ -1,24 +1,10 @@
-# README
+Installation 
+http://railsapps.github.io/installrubyonrails-mac.html
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+> install homebrew 
+> install rvm
+> install latest ruby -v 2.5.0
 
-Things you may want to cover:
-
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+> Pull this git repo
+> cd the folder
+> bundle install
