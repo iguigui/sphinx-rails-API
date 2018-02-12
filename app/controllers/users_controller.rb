@@ -4,9 +4,12 @@ class UsersController < ApplicationController
   	new_user = User.new(user_params)
   	if !user_exists(new_user.email)
   		if new_user.save
+    		payload = {data: new_user.email}
+    		token = JWT.encode payload, nil, 'none'
 		  	render status: 200, json: {
 		      status: 'SUCCESS', 
-		      data: {user: new_user, message: 'saved succesfully'}
+		      user: {email: new_user.email, token: token},
+					message: 'saved succesfully'
 		  	}
 		  else
   	  	render status: 401, json: {
