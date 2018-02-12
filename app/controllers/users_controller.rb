@@ -4,20 +4,21 @@ class UsersController < ApplicationController
   	new_user = User.new(user_params)
   	if !user_exists(new_user.email)
   		if new_user.save
-		  	render json: {
+		  	render status: 200, json: {
 		      status: 'SUCCESS', 
 		      data: {user: new_user, message: 'saved succesfully'}
 		  	}
 		  else
-  	  	render json: {
+  	  	render status: 401, json: {
 		  		status: 'FAILURE',
-		  		data: {email: new_user.email, message: 'Error saving'}
+		  		errors: { global: "server error saving"}
+		  		
 	  		}
 			end  
 	  else
-	  	render json: {
+	  	render status: 401, json: {
 	  		status: 'FAILURE',
-	  		data: {email: new_user.email, message: 'Email already exists'}
+	  		errors: { global: "#{new_user.email} : Email already exists"}
   		}
 	  end	
   end
@@ -29,9 +30,9 @@ class UsersController < ApplicationController
 				puts "GOOD password #{user.password}"
     		payload = {data: user.email}
     		token = JWT.encode payload, nil, 'none'
-		  	render json: {
+		  	render status: 200, json: {
 		      status: 'SUCCESS', 
-		      data: {user: {email: user.email, token: token}}, 
+		      user: {email: user.email, token: token}, 
 		      message: "Authenticated succesfully" 
 		  	} 
 			else
@@ -41,7 +42,7 @@ class UsersController < ApplicationController
 			catch
 		end
 		rescue
-	  	render json: {
+	  	render status: 401, json: {
 	      status: 'Unauthorized', 
 	      data: {user: {email: params[:email]}}, 
 	      message: "Wrong credentials" 

@@ -6,4 +6,9 @@ Rails.application.routes.draw do
       post '/signin', to: 'users#signin'
     end
   end
+  resources :appliance_infos, :only => [:getApplianceInfos] do 
+    collection do
+      get '/', to: 'appliance_infos#getApplianceInfos'
+    end
+  end  
 end
