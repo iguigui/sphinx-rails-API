@@ -27,6 +27,8 @@ gem 'bson'
 gem 'bson_ext'
 gem 'factory_bot'
 gem 'factory_bot_rails'
+gem 'jwt'
+
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 

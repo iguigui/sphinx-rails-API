@@ -1,7 +1,7 @@
 class UsersController < ApplicationController
 
   def signup
-  	new_user = User.new(email: params[:email], password: params[:password])
+  	new_user = User.new(user_params)
   	if !user_exists(new_user.email)
   		if new_user.save
 		  	render json: {
@@ -23,17 +23,15 @@ class UsersController < ApplicationController
   end
 
   def signin 
-  	puts params[:email]
-  	puts user_exists(params[:email])
   	if user_exists(params[:email])
 	  	user = User.find_by(email: params[:email]) 
 			if user.password == params[:password]
 				puts "GOOD password #{user.password}"
-				# token = JsonWebToken.encode({user_id: user.id}),
-    #   		user: {id: user.id, email: user.email}
+    		payload = {data: user.email}
+    		token = JWT.encode payload, nil, 'none'
 		  	render json: {
 		      status: 'SUCCESS', 
-		      data: {user: {email: user.email}}, 
+		      data: {user: {email: user.email, token: token}}, 
 		      message: "Authenticated succesfully" 
 		  	} 
 			else
@@ -43,24 +41,12 @@ class UsersController < ApplicationController
 			catch
 		end
 		rescue
+	  	render json: {
+	      status: 'Unauthorized', 
+	      data: {user: {email: params[:email]}}, 
+	      message: "Wrong credentials" 
+	  	} 
 	end		
-				
-  # 	if user_exists(params[:email])
-	 #  	user = User.find_by(email: params[:email])
-	 #  	if user.password == params[:password]
-		#   else
-		#   	catch
-		#   end
-		# else 
-		# 	catch  
-		# end  
-		# rescue
-	 #  	render json: {
-	 #      status: 'Unauthorized', 
-	 #      data: user,
-	 #      message: "Wrong credentials"
-	 #  	}  	
-  # end
 
   private
 
